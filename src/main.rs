@@ -122,22 +122,22 @@ async fn process_central_event(config: &Config, adapter: &Adapter, event: Centra
     let event = match event {
         CentralEvent::DeviceDiscovered(id) => {
             let (name, mac_address, rssi) = get_properties(adapter, &id).await?;
-            topic = format!("{}/{}/{}/{}", config.mqtt_topic, "DeviceDiscovered", name.clone().unwrap_or("".to_string()), id.to_string());
+            topic = format!("{}/{}/{}", config.mqtt_topic, "DeviceDiscovered", id.to_string());
             Event::new(id.to_string(), "DeviceDiscovered".into(), mac_address, name, rssi, None, None, None)
         }
         CentralEvent::DeviceUpdated(id) => {
             let (name, mac_address, rssi) = get_properties(adapter, &id).await?;
-            topic = format!("{}/{}/{}/{}", config.mqtt_topic, "DeviceUpdated", name.clone().unwrap_or("".to_string()), id.to_string());
+            topic = format!("{}/{}/{}", config.mqtt_topic, "DeviceUpdated", id.to_string());
             Event::new(id.to_string(), "DeviceUpdated".into(), mac_address, name, rssi, None, None, None)
         }
         CentralEvent::DeviceConnected(id) => {
             let (name, mac_address, rssi) = get_properties(adapter, &id).await?;
-            topic = format!("{}/{}/{}/{}", config.mqtt_topic, "DeviceConnected", name.clone().unwrap_or("".to_string()), id.to_string());
+            topic = format!("{}/{}/{}", config.mqtt_topic, "DeviceConnected", id.to_string());
             Event::new(id.to_string(), "DeviceConnected".into(), mac_address, name, rssi, None, None, None)
         }
         CentralEvent::DeviceDisconnected(id) => {
             let (name, mac_address, rssi) = get_properties(adapter, &id).await?;
-            topic = format!("{}/{}/{}/{}", config.mqtt_topic, "DeviceDisconnected", name.clone().unwrap_or("".to_string()), id.to_string());
+            topic = format!("{}/{}/{}", config.mqtt_topic, "DeviceDisconnected", id.to_string());
             Event::new(id.to_string(), "DeviceDisconnected".into(), mac_address, name, rssi, None, None, None)
         }
         CentralEvent::ManufacturerDataAdvertisement { id, manufacturer_data } => {
@@ -145,7 +145,7 @@ async fn process_central_event(config: &Config, adapter: &Adapter, event: Centra
                 map(|(k, v)| (k.clone(), hex::encode(v))).
                 collect();
             let (name, mac_address, rssi) = get_properties(adapter, &id).await?;
-            topic = format!("{}/{}/{}/{}", config.mqtt_topic, "ManufacturerDataAdvertisement", name.clone().unwrap_or("".to_string()), id.to_string());
+            topic = format!("{}/{}/{}", config.mqtt_topic, "ManufacturerDataAdvertisement", id.to_string());
 
             if verbose {
                 let peripheral = adapter.peripheral(&id).await?;
@@ -157,7 +157,7 @@ async fn process_central_event(config: &Config, adapter: &Adapter, event: Centra
         }
         CentralEvent::ServiceDataAdvertisement { id, service_data } => {
             let (name, mac_address, rssi) = get_properties(adapter, &id).await?;
-            topic = format!("{}/{}/{}/{}", config.mqtt_topic, "ServiceDataAdvertisement", name.clone().unwrap_or("".to_string()), id.to_string());
+            topic = format!("{}/{}/{}", config.mqtt_topic, "ServiceDataAdvertisement", id.to_string());
             let data = service_data.iter().
                 map(|(k, v)| (k.clone(), hex::encode(v))).
                 collect();
@@ -172,7 +172,7 @@ async fn process_central_event(config: &Config, adapter: &Adapter, event: Centra
         }
         CentralEvent::ServicesAdvertisement { id, services } => {
             let (name, mac_address, rssi) = get_properties(adapter, &id).await?;
-            topic = format!("{}/{}/{}/{}", config.mqtt_topic, "ServicesAdvertisement", name.clone().unwrap_or("".to_string()), id.to_string());
+            topic = format!("{}/{}/{}", config.mqtt_topic, "ServicesAdvertisement", id.to_string());
 
             if verbose {
                 let peripheral = adapter.peripheral(&id).await?;
